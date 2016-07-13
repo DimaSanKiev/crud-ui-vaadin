@@ -25,7 +25,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 @UIScope
 public class CustomerEditor extends VerticalLayout {
 
-    private final CustomerRepository repository;
+    @Autowired
+    CustomerRepository repository;
 
     /**
      * The currently edited customer
@@ -42,10 +43,7 @@ public class CustomerEditor extends VerticalLayout {
     private Button delete = new Button("Delete", FontAwesome.TRASH_O);
     private CssLayout actions = new CssLayout(save, cancel, delete);
 
-    @Autowired
-    public CustomerEditor(CustomerRepository repository) {
-        this.repository = repository;
-
+    public CustomerEditor() {
         addComponents(firstName, lastName, actions);
 
         // Configure and style components
@@ -68,7 +66,7 @@ public class CustomerEditor extends VerticalLayout {
     final void editCustomer(Customer c) {
         final boolean persisted = c.getId() != null;
         if (persisted) {
-            // find fresh entity for editing
+            // Find fresh entity for editing
             customer = repository.findOne(c.getId());
         } else {
             customer = c;
@@ -84,7 +82,7 @@ public class CustomerEditor extends VerticalLayout {
 
         // A hack to ensure the whole form is visible
         save.focus();
-        // Select all text in firstName filed automatically
+        // Select all text in firstName field automatically
         firstName.selectAll();
     }
 

@@ -16,8 +16,8 @@ apply plugin: 'idea'
 apply plugin: 'spring-boot'
 
 jar {
-    baseName = 'crud-ui-vaadin'
-    version = '0.1.0'
+    baseName = 'gs-crud-with-vaadin'
+    version =  '0.1.0'
 }
 
 repositories {
@@ -30,9 +30,9 @@ sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 dependencyManagement {
-    imports {
-        mavenBom 'com.vaadin:vaadin-bom:7.5-SNAPSHOT'
-    }
+  imports {
+    mavenBom 'com.vaadin:vaadin-bom:7.5-SNAPSHOT'
+  }
 }
 
 dependencies {

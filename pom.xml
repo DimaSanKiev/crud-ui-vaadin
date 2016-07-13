@@ -4,8 +4,8 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>io.spring</groupId>
-    <artifactId>crud-ui-vaadin</artifactId>
+    <groupId>org.springframework</groupId>
+    <artifactId>gs-crud-with-vaadin</artifactId>
     <version>0.1.0</version>
 
     <parent>

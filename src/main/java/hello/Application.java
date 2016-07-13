@@ -1,55 +1,50 @@
 package hello;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
-
-import java.util.List;
 
 @SpringBootApplication
-public class Application {
+public class Application implements CommandLineRunner {
 
-    private static final Logger log = LoggerFactory.getLogger(Application.class);
-
+    @Autowired
+    CustomerRepository repository;
+    
     public static void main(String[] args) {
-        SpringApplication.run(Application.class, args);
+        SpringApplication.run(Application.class);
     }
 
-    @Bean
-    public CommandLineRunner loadData(CustomerRepository repository) {
-        return args -> {
-            // save a couple of customers
-            repository.save(new Customer("Bill", "Gates"));
-            repository.save(new Customer("Jack", "Jones"));
-            repository.save(new Customer("Keith", "Flint"));
-            repository.save(new Customer("David", "Palmer"));
-            repository.save(new Customer("David", "Jones"));
+    @Override
+    public void run(String... strings) throws Exception {
+        // save a couple of customers
+        repository.save(new Customer("Jack", "Bauer"));
+        repository.save(new Customer("Chloe", "O'Brian"));
+        repository.save(new Customer("Kim", "Bauer"));
+        repository.save(new Customer("David", "Palmer"));
+        repository.save(new Customer("Michelle", "Dessler"));
 
-            // fetch all customers
-            log.info("Customers found with findAll():");
-            log.info("-------------------------------");
-            for (Customer customer : repository.findAll()) {
-                log.info(customer.toString());
-            }
-            log.info("");
+        // fetch all customers
+        System.out.println("Customers found with findAll():");
+        System.out.println("-------------------------------");
+        for (Customer customer : repository.findAll()) {
+            System.out.println(customer);
+        }
+        System.out.println();
 
-            // fetch an individual customer by ID
-            Customer customer = repository.findOne(1L);
-            log.info("Customer found with findOne(1L):");
-            log.info("--------------------------------");
-            log.info(customer.toString());
-            log.info("");
+        // fetch an individual customer by ID
+        Customer customer = repository.findOne(1L);
+        System.out.println("Customer found with findOne(1L):");
+        System.out.println("--------------------------------");
+        System.out.println(customer);
+        System.out.println();
 
-            // fetch customer by lastName
-            log.info("Customers found by findByLastNameStartsWithIgnoreCase('jon')");
-            log.info("--------------------------------------------------------------");
-            for (Customer jones : repository.findByLastNameStartsWithIgnoreCase("jon")) {
-                log.info(jones.toString());
-            }
-            log.info("");
-        };
+        // fetch customers by last name
+        System.out.println("Customer found with findByLastName('Bauer'):");
+        System.out.println("--------------------------------------------");
+        for (Customer bauer : repository.findByLastNameStartsWithIgnoreCase("Bauer")) {
+            System.out.println(bauer);
+        }
     }
+
 }

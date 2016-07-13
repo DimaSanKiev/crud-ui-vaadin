@@ -6,4 +6,5 @@ gradlew
 gradlew.bat
 settings.gradle
 crud-ui-vaadin.iml
-
+target/
+src/main/main.iml

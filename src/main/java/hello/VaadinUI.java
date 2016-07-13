@@ -13,26 +13,22 @@ import org.springframework.util.StringUtils;
 @Theme("valo")
 public class VaadinUI extends UI {
 
-    private final CustomerRepository repository;
-    private final CustomerEditor editor;
-    private final Grid grid;
-    private final TextField filter;
-    private final Button addNewBtn;
+    @Autowired
+    private CustomerRepository repo;
 
     @Autowired
-    public VaadinUI(CustomerRepository repository, CustomerEditor editor) {
-        this.repository = repository;
-        this.editor = editor;
-        this.grid = new Grid();
-        this.filter = new TextField();
-        this.addNewBtn = new Button("New Customer", FontAwesome.PLUS);
-    }
+    private CustomerEditor editor;
+
+    private Grid grid = new Grid();
+    private TextField filter = new TextField();
+    private Button addNewBtn = new Button("New customer", FontAwesome.PLUS);
 
     @Override
     protected void init(VaadinRequest request) {
-        // Build layout
+        // build layout
         HorizontalLayout actions = new HorizontalLayout(filter, addNewBtn);
         VerticalLayout mainLayout = new VerticalLayout(actions, grid, editor);
+        setContent(mainLayout);
 
         // Configure layouts and components
         actions.setSpacing(true);
@@ -71,17 +67,15 @@ public class VaadinUI extends UI {
         listCustomers(null);
     }
 
-    // tag::listCustomers[]
     private void listCustomers(String text) {
         if (StringUtils.isEmpty(text)) {
             grid.setContainerDataSource(
-                    new BeanItemContainer<>(Customer.class, repository.findAll()));
+                new BeanItemContainer<>(Customer.class, repo.findAll()));
         } else {
             grid.setContainerDataSource(
-                    new BeanItemContainer<>(Customer.class, repository.findByLastNameStartsWithIgnoreCase(text))
-            );
+                    new BeanItemContainer(Customer.class,
+                            repo.findByLastNameStartsWithIgnoreCase(text)));
         }
     }
-    // end::listCustomers[]
 
 }
